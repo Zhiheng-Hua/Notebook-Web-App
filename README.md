@@ -2,6 +2,6 @@
 
 ### todo: 
     - add filter to api (sorting)
-    - make adding notes/tasks floating window
-    - solve clicking and expanding hidden details bug
+    - currently only click title to expand details
     - lots of front-end functionalities still incompleted
+    - error more user friendly
