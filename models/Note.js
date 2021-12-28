@@ -8,10 +8,12 @@ const NoteSchema = new mongoose.Schema({
         // maxlength: [30, 'title cannot be more than 30 chars']
     },
     content: {
-        type: String
+        type: String,
+        default: ""
     },
     comments: {
-        type: String
+        type: String,
+        default: ""
     },
     createdBy: {
         type: mongoose.Types.ObjectId,
