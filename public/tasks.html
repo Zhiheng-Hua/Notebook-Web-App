@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NoteBook</title>
+    <link rel="icon" href="./images/website-icon.svg">
+    <link rel="stylesheet" href="notes.css">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <!-- navigation bar -->
+    <nav class="nav">
+        <img src="./images/user.svg" alt="user-icon not found" id="user-icon">
+        <ul class="nav-options">
+            <li><a href="notes.html">Note</a></li>
+            <li>Todo</li>
+        </ul>
+    </nav>
+
+    <!-- tasks/notes section -->
+    <section class="task-note-section">
+        <div class="one-task-note">
+            one sigle task/note
+            <img src="./images/edit.svg" alt="edit-icon not found" class="small-icon">
+            <img src="./images/delete.svg" alt="delete-icon not found" class="small-icon">
+        </div>
+    </section>
+
+    <!-- section for adding note/task -->
+    <section class="adding-section">
+        <div class="adding-container">
+            <div>
+                Name*:
+                <input type="text">
+            </div>
+            <div>
+                Impartance:
+                <input type="number" max="5" min="0" step="1">
+            </div>
+            <div>
+                Deadline:
+                <input type="text">
+            </div>
+            <button>Add</button>
+        </div>
+    </section>
+    
+    <img src="./images/add.svg" alt="add-icon not found" class="add-icon">
+    
+
+</body>
+</html>

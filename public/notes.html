@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NoteBook</title>
+    <link rel="icon" href="./images/website-icon.svg">
+    <link rel="stylesheet" href="notes.css">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="notes.js"></script>
+</head>
+<body>
+    <!-- navigation bar -->
+    <nav class="nav">
+        <ul id="user-icon" class="pointer-cursor">
+            <img src="./images/user.svg" alt="user-icon not found" >
+        </ul>
+        <ul>
+            <li>NOTE</li>
+            <li><a href="tasks.html">TODO</a></li>
+        </ul>
+    </nav>
+
+    
+    <!-- tasks/notes section -->
+    <section class="task-note-section pointer-cursor"></section>
+
+    <!-- section for adding note/task -->
+    <section class="adding-section">
+        <div class="adding-container" style="display: none;">
+            <div>
+                <span>Title*:</span>
+                <input type="text">
+            </div>
+            <div>
+                <span>Content*:</span>
+                <input type="text">
+            </div>
+            <div>
+                <span>Comments:</span>
+                <input type="text">
+            </div>
+            <button>Add</button>
+        </div>
+    </section>
+
+    <img src="./images/add.svg" alt="add-icon not found" id="add-icon" class="pointer-cursor">
+
+</body>
+</html>
