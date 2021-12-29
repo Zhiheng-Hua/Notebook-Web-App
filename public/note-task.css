@@ -24,24 +24,30 @@ html, body {
     margin: 0;
     text-align: center;
     display: inline;
-    vertical-align: middle;
 }
 
 .nav li {
-    display: inline-flex;        /* elements shown inline*/
+    display: inline-block;        /* elements shown inline*/
     font-size: larger;
     font-weight: bold;
     padding: 0 10%;
-    vertical-align: middle;
     cursor: default;
+    height: 2em;
 }
 
 .nav-change-bg:hover {
-    cursor: pointer;
     background-color: rgb(245, 214, 175);
 }
 
-.nav li a {
+.nav-curr {
+    background-color: #F2F4F8;
+}
+
+.nav-another, .nav-curr {
+    border-radius: 10px 10px 0 0;
+}
+
+.nav a {
     text-decoration: none;
     color: black;       /* prevent link color from changing after being visited */
 }
