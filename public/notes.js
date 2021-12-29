@@ -14,9 +14,10 @@ async function ready() {
 }
 
 async function showNotes(token) {
-    const {data: {notes}} = await axios.get('/api/v1/notes', {
+    const {data: {notes, nbHits}} = await axios.get('/api/v1/notes', {
         headers: { Authorization: "Bearer " + token }
     });
+    document.getElementsByClassName('no-item-prompt')[0].innerHTML = (nbHits == "0") ? "You have not yet add any notes" : "";
     const noteContainer = document.getElementsByClassName("task-note-section")[0];
     for (var i = 0; i < notes.length; i++) {
         const { title, content, comments, createdAt, _id } = notes[i];
@@ -29,31 +30,30 @@ function noteElement(title, content, createdAt, comments, _id) {
     noteContainer.classList.add("one-task-note");
     noteContainer.id = _id;
     const newNoteContent = 
-        `<div>
-            <span><input type="text" disabled value="${title}" class="editable"></span>
+        `<div class="notes-shown">
+            <span><input type="text" disabled value="${title}" class="editable" style="font-weight: bold;"></span>
             <span><input type="text" disabled value="${content}" class="editable"></span>
+            <span><img src="./images/expand.svg" alt="expand-icon not found" class="expand-icon pointer-cursor"></span>
             <span><img src="./images/edit.svg" alt="edit-icon not found" class="edit-icon pointer-cursor"></span>
             <span><img src="./images/delete.svg" alt="delete-icon not found" class="delete-icon pointer-cursor"></span>
         </div>
         <div class="hidden-details" style="display: none;">
-            <div><input type="text" disabled value="${new Date(createdAt).toDateString()}" class="editable"></div>
-            <div><input type="text" disabled value="${comments}" class="editable"></div>
+            <div>CreatedAt:<input type="text" disabled value=" ${new Date(createdAt).toDateString()}" class="editable"></div>
+            <div>Comments:<input type="text" disabled value=" ${comments}" class="editable"></div>
         </div>
         <div class="finish-edit-btn" style="display: none;"><button>done</button></div>`;
     noteContainer.innerHTML = newNoteContent;
     noteContainer.querySelector(".edit-icon").addEventListener('click', editNote)
     noteContainer.querySelector(".delete-icon").addEventListener('click', deleteNote);
-    noteContainer.querySelector(".editable").parentElement.addEventListener('click', () => {
-        toggleDetails(noteContainer);
-    });
+    noteContainer.querySelector(".expand-icon").addEventListener('click', toggleDetails);
     noteContainer.querySelector(".finish-edit-btn").addEventListener('click', (event) => {
         updateNote(event, noteContainer);
     });
     return noteContainer;
 }
 
-function toggleDetails(noteContainer) {
-    const hidden = noteContainer.querySelector(".hidden-details");
+function toggleDetails(event) {
+    const hidden = event.target.parentElement.parentElement.parentElement.querySelector(".hidden-details");
     if (hidden.style.display === 'none') {
         hidden.style.display = "block";
     } else {
@@ -79,12 +79,16 @@ async function updateNote(event, noteContainer) {
     }, {
         headers: { Authorization: "Bearer " + window.sessionStorage.getItem("token") }
     });
+    // re-enable click expand functionality
+    noteContainer.querySelector(".expand-icon").addEventListener('click', toggleDetails);
 }
 
 function editNote(event) {
     const icon = event.target;
     const noteContainer = icon.parentElement.parentElement.parentElement;
     const editable = noteContainer.querySelectorAll(".editable");
+    // temporarily disable click expand functionality
+    noteContainer.querySelector(".expand-icon").removeEventListener('click', toggleDetails);
     for (var item of editable) {
         item.style.border = " ";
         item.removeAttribute("disabled");
@@ -101,6 +105,7 @@ async function deleteNote(event) {
     await axios.delete(`/api/v1/notes/${noteContainer.id}`, {
         headers: { Authorization: "Bearer " + window.sessionStorage.getItem("token") }
     });
+    checkHaveItem();
 }
 
 function triggerAddNote() {
@@ -148,10 +153,19 @@ async function addNotes(title, content, comments, createdAt) {
     });
     newNote.id = _id;
     document.getElementsByClassName("task-note-section")[0].append(newNote);
+    checkHaveItem();
 }
 
 function clearInputHelper(allItems) {
     for (var i = 0; i < 3; i++) {
         allItems[i].querySelector('input').value = "";
     }
+}
+
+async function checkHaveItem() {
+    const token = window.sessionStorage.getItem("token");
+    const {data: {nbHits}} = await axios.get('/api/v1/notes', {
+        headers: { Authorization: "Bearer " + token }
+    });
+    document.getElementsByClassName('no-item-prompt')[0].innerHTML = (nbHits == "0") ? "You have not yet add any notes" : "";
 }

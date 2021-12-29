@@ -14,9 +14,10 @@ async function ready() {
 }
 
 async function showTasks(token) {
-    const {data: {tasks}} = await axios.get('/api/v1/tasks', {
+    const {data: {tasks, nbHits}} = await axios.get('/api/v1/tasks', {
         headers: { Authorization: "Bearer " + token }
     });
+    document.getElementsByClassName('no-item-prompt')[0].innerHTML = (nbHits == "0") ? "You have not yet add any tasks" : "";
     const taskContainer = document.getElementsByClassName("task-note-section")[0];
     for (var i = 0; i < tasks.length; i++) {
         const { name, deadline, importance, completed, _id } = tasks[i];
@@ -33,10 +34,10 @@ function taskElement(name, deadline, importance, completed, _id) {
     const tick = completed ? "checked" : "false";
     const newTaskContent = 
         `<div>
-            <span><input type="text" disabled value="${name}" class="editable"></span>
+            <span><input type="text" disabled value="${name}" class="editable" style="font-weight: bold;"></span>
             <span><input type="text" disabled value="${deadline}" class="editable"></span>
-            <span><input type="text" disabled value="${importance}" class="editable" style="display: none;"></span>
-            <span style="margin-right: 40px;" class="stars">${stars}</span>
+            <span><input type="number" max="5" min="0" step="1" disabled value="${importance}" class="editable" style="display: none;"></span>
+            <span class="stars">${stars}</span>
             <span><input type="checkbox" disabled ${tick} class="editable"></span>
             <span><img src="./images/edit.svg" alt="edit-icon not found" class="edit-icon pointer-cursor"></span>
             <span><img src="./images/delete.svg" alt="delete-icon not found" class="delete-icon pointer-cursor"></span>
@@ -106,6 +107,7 @@ async function deleteTask(event) {
     await axios.delete(`/api/v1/tasks/${taskContainer.id}`, {
         headers: { Authorization: "Bearer " + window.sessionStorage.getItem("token") }
     });
+    checkHaveItem();
 }
 
 function triggerAddTask() {
@@ -155,10 +157,19 @@ async function addNotes(name, deadline, importance, completed) {
     });
     newNote.id = _id;
     document.getElementsByClassName("task-note-section")[0].append(newNote);
+    checkHaveItem();
 }
 
 function clearInputHelper(allItems) {
     for (var i = 0; i < 4; i++) {
         allItems[i].querySelector('input').value = "";
     }
+}
+
+async function checkHaveItem() {
+    const token = window.sessionStorage.getItem("token");
+    const {data: {nbHits}} = await axios.get('/api/v1/tasks', {
+        headers: { Authorization: "Bearer " + token }
+    });
+    document.getElementsByClassName('no-item-prompt')[0].innerHTML = (nbHits == "0") ? "You have not yet add any tasks" : "";
 }
