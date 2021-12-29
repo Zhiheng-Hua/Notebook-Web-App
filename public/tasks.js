@@ -8,6 +8,8 @@ async function ready() {
     try {
         await showTasks(window.sessionStorage.getItem("token"));
         prepareAddingSection();
+        document.getElementById('NOTE').addEventListener('click', () => window.location.assign("notes.html"));
+        document.getElementById('logout-icon').addEventListener('click', () => window.location.assign("index.html"));
     } catch (error) {
         alert(error);
     }

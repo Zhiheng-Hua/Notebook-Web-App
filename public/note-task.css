@@ -16,7 +16,7 @@ html, body {
 
 /* ---------- navigation section ---------- */
 .nav {
-    background-color: antiquewhite;
+    background-color: #fad4af;
 }
 
 .nav ul {
@@ -36,7 +36,7 @@ html, body {
 }
 
 .nav-change-bg:hover {
-    background-color: rgb(245, 214, 175);
+    background-color: rgb(245, 193, 129);
 }
 
 .nav-curr {
@@ -47,12 +47,7 @@ html, body {
     border-radius: 10px 10px 0 0;
 }
 
-.nav a {
-    text-decoration: none;
-    color: black;       /* prevent link color from changing after being visited */
-}
-
-#user-icon img {
+#logout-icon img {
     width: 2em;
     vertical-align: middle;
     border-left: 5em;
