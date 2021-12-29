@@ -71,9 +71,9 @@ async function updateNote(event, noteContainer) {
     event.target.parentElement.style.display = "none";
     // update in DB
     const id = noteContainer.id;
-    const title = noteContainer.querySelectorAll('input')[0].value;
-    const content = noteContainer.querySelectorAll('input')[1].value;
-    const comments = noteContainer.querySelectorAll('input')[3].value;
+    const title = editable[0].value;
+    const content = editable[1].value;
+    const comments = editable[3].value;
     await axios.patch(`/api/v1/notes/${id}`, {
         title: title, content: content, comments:comments
     }, {
@@ -139,20 +139,19 @@ function prepareAddingSection() {
 }
 
 async function addNotes(title, content, comments, createdAt) {
-    const newNote = noteElement(title, content, createdAt, comments);
-    document.getElementsByClassName("task-note-section")[0].append(newNote);
+    const newNote = noteElement(title, content, createdAt, comments, "");
     // add in DB
-    await axios.post('/api/v1/notes', {
+    const {data: {note: {_id}}} = await axios.post('/api/v1/notes', {
         title, content, createdAt, comments
     }, {
         headers: { Authorization: "Bearer " + window.sessionStorage.getItem("token") }
     });
+    newNote.id = _id;
+    document.getElementsByClassName("task-note-section")[0].append(newNote);
 }
 
 function clearInputHelper(allItems) {
-    for (var item of allItems) {
-        allItems[0].querySelector('input').value = "";
-        allItems[1].querySelector('input').value = "";
-        allItems[2].querySelector('input').value = "";
+    for (var i = 0; i < 3; i++) {
+        allItems[i].querySelector('input').value = "";
     }
 }

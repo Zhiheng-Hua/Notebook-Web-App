@@ -14,12 +14,14 @@ const TaskSchema = new mongoose.Schema({
         trim: true,
         maxlength: [30, "name cannot be more than 30 characters"]
     },
+    deadline : {
+        type: String,
+        default: ""
+    },
     importance: {
         type: Number,
-        enum: [1, 2, 3, 4, 5]   // importance at a sacle of 5
-    },
-    deadline : {
-        type: String
+        enum: [0, 1, 2, 3, 4, 5],   // importance at a sacle of 5
+        default: 0
     },
     completed: {
         type: Boolean,
