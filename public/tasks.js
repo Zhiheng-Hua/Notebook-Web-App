@@ -43,6 +43,11 @@ function taskElement(name, deadline, importance, completed, _id) {
         </div>
         <div class="finish-edit-btn" style="display: none;"><button>done</button></div>`;
     taskContainer.innerHTML = newTaskContent;
+    if (completed) {
+        for (var text of taskContainer.querySelectorAll('input')) {
+            text.style.textDecoration = "line-through"
+        }
+    }
     taskContainer.querySelector(".edit-icon").addEventListener('click', editTask)
     taskContainer.querySelector(".delete-icon").addEventListener('click', deleteTask);
     taskContainer.querySelector(".finish-edit-btn").addEventListener('click', (event) => {
@@ -51,7 +56,6 @@ function taskElement(name, deadline, importance, completed, _id) {
     return taskContainer;
 }
 
-// ++++++++++++++++++++++++++++++++++++++++++++
 async function updateTask(event, taskContainer) {
     const editable = taskContainer.querySelectorAll(".editable");
     for (var item of editable) {
@@ -70,12 +74,15 @@ async function updateTask(event, taskContainer) {
     }, {
         headers: { Authorization: "Bearer " + window.sessionStorage.getItem("token") }
     });
-    // update stars on webpage
+    // update stars and cross-line on webpage
     editable[2].style.display = "none";
     const stars = `<span class="fa fa-star" style="color: orange;"></span>`.repeat(importance);
     const starsDOM = taskContainer.querySelector('.stars');
     starsDOM.innerHTML = stars;
     starsDOM.style.display = "inline-block";
+    for (var text of taskContainer.querySelectorAll('input')) {
+        text.style.textDecoration = completed ? "line-through" : "none";
+    }
 }
 
 function editTask(event) {

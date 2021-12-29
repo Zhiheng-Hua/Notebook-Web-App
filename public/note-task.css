@@ -33,9 +33,10 @@ html, body {
     font-weight: bold;
     padding: 0 10%;
     vertical-align: middle;
+    cursor: default;
 }
 
-.nav li:hover {
+.nav-change-bg:hover {
     cursor: pointer;
     background-color: rgb(245, 214, 175);
 }
