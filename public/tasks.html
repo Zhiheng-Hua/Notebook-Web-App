@@ -51,7 +51,35 @@
     </section>
 
     <!-- tasks/notes section -->
-    <section class="task-note-section"></section>
+    <section class="task-note-section">
+        <div class="custom">
+            <span style="display: none;" id="sort-custom">
+                sort...<br>
+                importance<input type="checkbox">desend?<input type="checkbox"><br>
+                date created<input type="checkbox">desend?<input type="checkbox">
+            </span>
+            <img src="images/sort.svg" alt="sort-icon not found" class="small-icon pointer-cursor"><br>
+            <span style="display: none;" id="filter-custom">
+                filter...<br>
+                <label>importance</label>
+                    <select>
+                        <option>&lt;</option>
+                        <option>&ge;</option>
+                        <option>=</option>
+                        <option>&lt;</option>
+                        <option>&le;</option>
+                    </select>
+                    <input type="number" max="5" min="0"><br>
+                <label>completed</label>
+                    <select>
+                        <option>true</option>
+                        <option>false</option>
+                        <option>both</option>
+                    </select>
+                </span>
+            <img src="images/filter.svg" alt="filter-icon not found" class="small-icon pointer-cursor">
+        </div>
+    </section>
     
     <img src="./images/add.svg" alt="add-icon not found" id="add-icon" class="pointer-cursor">
     

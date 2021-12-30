@@ -83,6 +83,25 @@ html, body {
     vertical-align: middle;
 }
 
+.small-icon {
+    width: 2em;
+    border: solid 1.5px;
+    border-radius: 5px;
+}
+
+.custom {
+    max-height: 4%;
+    display: inline-flex;
+    text-align: left;
+    align-items: center;
+    margin-right: 1em;
+    margin-left: 30%;
+}
+
+.custom span {
+    padding: 0 .5em 0 2em ;
+}
+
 #add-icon {
     width: 5em;
     vertical-align: middle;

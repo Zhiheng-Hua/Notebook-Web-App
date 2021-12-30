@@ -8,67 +8,47 @@ const Note = require('../models/Note');
 // app.delete('api/v1/notes/:id')   - delete note 
 
 const getAllNotes = async (req, res) => {
-    try {
-        const notes = await Note.find({createdBy: req.user.userId});
-        res.status(StatusCodes.OK).json({ notes, nbHits: notes.length });
-    } catch (err) {
-        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: err });
-    }
+    const notes = await Note.find({createdBy: req.user.userId});
+    res.status(StatusCodes.OK).json({ notes, nbHits: notes.length });
 }
 
 const getSingleNote = async (req, res) => {
-    try {
-        const { id: noteID } = req.params;
-        const note = await Note.findOne({ _id: noteID, createdBy: req.user.userId });
-        if (!note) {
-            return res.status(StatusCodes.NOT_FOUND).json({msg: `Cannot note task with id ${noteID}`});
-        }
-        res.status(StatusCodes.OK).json({ note });
-    } catch (err) {
-        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: err });
+    const { id: noteID } = req.params;
+    const note = await Note.findOne({ _id: noteID, createdBy: req.user.userId });
+    if (!note) {
+        return res.status(StatusCodes.NOT_FOUND).json({msg: `Cannot note task with id ${noteID}`});
     }
+    res.status(StatusCodes.OK).json({ note });
 }
 
 const createNote = async (req, res) => {
-    try {
-        req.body.createdBy = req.user.userId;
-        const note = await Note.create(req.body);   // use request body to create note
-        res.status(StatusCodes.CREATED).json({ note });             // HTTP 201 Created success status
-    } catch (err) {
-        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: err });
-    }
+    req.body.createdBy = req.user.userId;
+    const note = await Note.create(req.body);   // use request body to create note
+    res.status(StatusCodes.CREATED).json({ note });             // HTTP 201 Created success status
 }
 
 const updateNote = async (req, res) => {
-    try {
-        const { id: noteID } = req.params;
-        const note = await Note.findOneAndUpdate(
-            { _id: noteID, createdBy: req.user.userId }, 
-            req.body, {
-                new: true,              // always return the new item
-                runValidators: true     // use model validation to test req body
-            }
-        );
-        if (!note) {
-            return res.status(StatusCodes.NOT_FOUND).json({msg: `Cannot find note with id ${noteID}`});
+    const { id: noteID } = req.params;
+    const note = await Note.findOneAndUpdate(
+        { _id: noteID, createdBy: req.user.userId }, 
+        req.body, {
+            new: true,              // always return the new item
+            runValidators: true     // use model validation to test req body
         }
-        res.status(StatusCodes.OK).json({ note });
-    } catch (err) {
-        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: err });
+    );
+    if (!note) {
+        return res.status(StatusCodes.NOT_FOUND).json({msg: `Cannot find note with id ${noteID}`});
     }
+    res.status(StatusCodes.OK).json({ note });
 }
 
 const deleteNote = async (req, res) => {
-    try {
-        const { id: noteID } = req.params;
-        const note = await Note.findOneAndDelete({ _id: noteID, createdBy: req.user.userId });
-        if (!note) {
-            return res.status(StatusCodes.NOT_FOUND).json({msg: `Cannot find note with id ${noteID}`});
-        }
-        res.status(StatusCodes.OK).json({ note });
-    } catch (err) {
-        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: err });
+    const { id: noteID } = req.params;
+    const note = await Note.findOneAndDelete({ _id: noteID, createdBy: req.user.userId });
+    if (!note) {
+        return res.status(StatusCodes.NOT_FOUND).json({msg: `Cannot find note with id ${noteID}`});
     }
+    res.status(StatusCodes.OK).json({ note });
 }
 
 module.exports = {
