@@ -50,40 +50,59 @@
         </div>
     </section>
 
-    <!-- tasks/notes section -->
-    <section class="task-note-section">
-        <div class="custom">
-            <span style="display: none;" id="sort-custom">
-                sort...<br>
-                importance<input type="checkbox">desend?<input type="checkbox"><br>
-                date created<input type="checkbox">desend?<input type="checkbox">
-            </span>
-            <span>
-                <img src="images/sort.svg" alt="sort-icon not found" class="small-icon pointer-cursor"><br>
-            </span>
-            <span style="display: none;" id="filter-custom">
-                filter...<br>
-                <label>importance</label>
-                    <select>
-                        <option>&lt;</option>
-                        <option>&ge;</option>
-                        <option>=</option>
-                        <option>&lt;</option>
-                        <option>&le;</option>
-                    </select>
-                    <input type="number" max="5" min="0"><br>
-                <label>completed</label>
-                    <select>
-                        <option>true</option>
-                        <option>false</option>
-                        <option>both</option>
-                    </select>
-            </span>
-            <span>
-                <img src="images/filter.svg" alt="filter-icon not found" class="small-icon pointer-cursor">
-            </span>
+    <div class="custom">
+        <!-- wrapping custom edit and button, normally hidden, click to expand -->
+        <div id="custom-edit-wrapper" style="display: none;">
+            <div class="custom-edit">
+                <!-- sorting part -->
+                <div id="sort-custom">
+                    Sort...<br>
+                    <input type="checkbox">importance 
+                        <select>
+                            <option value="">ascend</option>
+                            <option value="-">desend</option>
+                        </select><br>
+                    <input type="checkbox">time created 
+                        <select>
+                            <option value="">oldest</option>
+                            <option value="-">latest</option>
+                        </select>
+                </div>
+                <!-- filter part -->
+                <div id="filter-custom">
+                    Filter...<br>
+                    <input type="checkbox">importance
+                        <select>
+                            <option value="&gt;">&gt;</option>
+                            <option value="&ge;">&ge;</option>
+                            <option value="=">=</option>
+                            <option value="&lt;">&lt;</option>
+                            <option value="&le;">&le;</option>
+                        </select>
+                        <select>
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select><br>
+                    <input type="checkbox">completed
+                        <select>
+                            <option value="1">true</option>
+                            <option value="0">false</option>
+                        </select>
+                </div>
+            </div>
+            <br>
+            <div id="customize-btn"><button>custom</button></div>
         </div>
-    </section>
+
+        <div><img src="images/filter.svg" class="small-icon pointer-cursor" id="custom-icon"></div>
+    </div>
+
+    <!-- tasks/notes section -->
+    <section class="task-note-section"></section>
     
     <img src="./images/add.svg" alt="add-icon not found" id="add-icon" class="pointer-cursor">
     

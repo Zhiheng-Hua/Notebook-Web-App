@@ -8,11 +8,8 @@ async function ready() {
     try {
         await showTasks(window.sessionStorage.getItem("token"));
         prepareAddingSection();
-        document.getElementById('NOTE').addEventListener('click', () => window.location.assign("notes.html"));
-        document.getElementById('logout-icon').addEventListener('click', () => {
-            window.sessionStorage.removeItem("token");
-            window.location.assign("index.html");
-        });
+        prepareNav();
+        prepareCustom();
     } catch (error) {
         alert(error);
     }
@@ -177,4 +174,61 @@ async function checkHaveItem() {
         headers: { Authorization: "Bearer " + token }
     });
     document.getElementsByClassName('no-item-prompt')[0].innerHTML = (nbHits == "0") ? "You have not yet add any tasks" : "";
+}
+
+function prepareNav() {
+    document.getElementById('NOTE').addEventListener('click', () => window.location.assign("notes.html"));
+    document.getElementById('logout-icon').addEventListener('click', () => {
+        window.sessionStorage.removeItem("token");
+        window.location.assign("index.html");
+    });
+}
+
+function prepareCustom() {
+    document.getElementById('custom-icon').addEventListener('click', () => {
+        const sortCustom = document.getElementById('custom-edit-wrapper');
+        toggleTarget(sortCustom);
+    });
+
+    document.getElementById('customize-btn').addEventListener('click', async () => {
+        let queryString = "?";
+        // sorting
+        const sortCustomContainer = document.getElementById('sort-custom'); 
+        const impCheck = sortCustomContainer.querySelectorAll('input')[0].checked;
+        const impOrder = sortCustomContainer.querySelectorAll('select')[0].value;
+        const recCheck = sortCustomContainer.querySelectorAll('input')[1].checked;
+        const recOrder = sortCustomContainer.querySelectorAll('select')[1].value;
+        const imp = impCheck ? impOrder + "importance" : "";
+        const rec = recCheck ? recOrder + "createdAt" : "";
+        queryString += ("sort=" + imp + "," + rec);
+        // filtering
+        const filterCustomContainer = document.getElementById('filter-custom'); 
+        const impSel = filterCustomContainer.querySelectorAll('input')[0].checked;
+        const impOptr = filterCustomContainer.querySelectorAll('select')[0].value;
+        const impVal = filterCustomContainer.querySelectorAll('select')[1].value;
+        const compSel = filterCustomContainer.querySelectorAll('input')[1].checked;
+        const compVal = filterCustomContainer.querySelectorAll('select')[2].value;
+        const impt = impSel ? "importance" + impOptr + impVal : "";
+        const comp = compSel ? "completed=" + compVal : "";
+        queryString += ("&filter=" + impt + "," + comp);
+        
+        const {data: {tasks, nbHits}} = await axios.get('/api/v1/tasks' + queryString, {
+            headers: { Authorization: "Bearer " + window.sessionStorage.getItem("token") }
+        });
+        document.getElementsByClassName('no-item-prompt')[0].innerHTML = (nbHits == "0") ? "You have not yet add any tasks" : "";
+        const taskContainer = document.getElementsByClassName("task-note-section")[0];
+        taskContainer.innerHTML = "";
+        for (var i = 0; i < tasks.length; i++) {
+            const { name, deadline, importance, completed, _id } = tasks[i];
+            taskContainer.append(taskElement(name, deadline, importance, completed, _id));
+        }
+    });
+}
+
+function toggleTarget(target) {
+    if (target.style.display === "none") {
+        target.style.display = "block";
+    } else {
+        target.style.display = "none";
+    }
 }

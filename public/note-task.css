@@ -56,7 +56,7 @@ html, body {
 
 /* ---------- adding/actaul tasks and notes ---------- */
 .task-note-section {
-    margin: 1em 20%;
+    margin: 0 20%;
 }
 
 .one-task-note {
@@ -86,11 +86,15 @@ html, body {
 
 .small-icon {
     width: 2em;
-    /* border: solid 1.5px; */
-    border-radius: 5px;
-    padding-right: .7em;
+    border-radius: 10px;
+    margin-right: .7em;
+    margin-left: .5em;
     box-sizing: content-box;
     align-self: flex-end;
+}
+
+.small-icon:hover {
+    background-color: rgb(228, 190, 153);
 }
 
 .custom {
@@ -98,15 +102,28 @@ html, body {
     display: flex;
     text-align: left;
     align-items: center;
-    margin-right: 1em;
+    margin-right: 23%;
     justify-content: flex-end;
+}
+
+#custom-edit-wrapper {
+    padding: .5em;
+    border: solid #2e40a1;
+    border-radius: 5px;
+    background-color: whitesmoke
+}
+
+#customize-btn {
+    text-align: center;
+}
+
+.custom-edit {
+    display: inline-flex;
 }
 
 #filter-custom, #sort-custom {
     padding: .5em;
     margin-right: .3em;
-    border: solid #293991;
-    border-radius: 10px;
 }
 
 #add-icon {
