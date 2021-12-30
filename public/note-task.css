@@ -67,6 +67,11 @@ html, body {
     margin: .5em;
 }
 
+.task-createdAt {
+    display: flex;
+    justify-content: flex-end;
+}
+
 .one-task-note span {
     padding-right: .5%;
 }
@@ -90,7 +95,6 @@ html, body {
     margin-right: .7em;
     margin-left: .5em;
     box-sizing: content-box;
-    align-self: flex-end;
 }
 
 .small-icon:hover {

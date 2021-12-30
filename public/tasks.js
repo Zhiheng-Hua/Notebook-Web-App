@@ -20,14 +20,15 @@ async function showTasks(token) {
         headers: { Authorization: "Bearer " + token }
     });
     document.getElementsByClassName('no-item-prompt')[0].innerHTML = (nbHits == "0") ? "You have not yet add any tasks" : "";
+    document.getElementById('custom-icon').style.display = (nbHits == "0") ? "none" : "block";
     const taskContainer = document.getElementsByClassName("task-note-section")[0];
     for (var i = 0; i < tasks.length; i++) {
-        const { name, deadline, importance, completed, _id } = tasks[i];
-        taskContainer.append(taskElement(name, deadline, importance, completed, _id));
+        const { name, deadline, importance, completed, _id, createdAt } = tasks[i];
+        taskContainer.append(taskElement(name, deadline, importance, completed, _id, createdAt));
     }
 }
 
-function taskElement(name, deadline, importance, completed, _id) {
+function taskElement(name, deadline, importance, completed, _id, createdAt) {
     const taskContainer = document.createElement('div');
     taskContainer.classList.add("one-task-note");
     taskContainer.id = _id;
@@ -44,16 +45,19 @@ function taskElement(name, deadline, importance, completed, _id) {
             <span><img src="./images/edit.svg" alt="edit-icon not found" class="edit-icon pointer-cursor"></span>
             <span><img src="./images/delete.svg" alt="delete-icon not found" class="delete-icon pointer-cursor"></span>
         </div>
+        <div class="task-createdAt">
+            CreatedAt:<input type="text" disabled value=" ${new Date(createdAt).toDateString()}" style="border: none;">
+        </div>
         <div class="finish-edit-btn" style="display: none;"><button>done</button></div>`;
     taskContainer.innerHTML = newTaskContent;
     if (completed) {
-        for (var text of taskContainer.querySelectorAll('input')) {
+        for (var text of taskContainer.querySelector('div').querySelectorAll('input')) {
             text.style.textDecoration = "line-through"
         }
     }
     taskContainer.querySelector(".edit-icon").addEventListener('click', editTask)
     taskContainer.querySelector(".delete-icon").addEventListener('click', deleteTask);
-    taskContainer.querySelector(".finish-edit-btn").addEventListener('click', (event) => {
+    taskContainer.querySelector(".finish-edit-btn").querySelector('button').addEventListener('click', (event) => {
         updateTask(event, taskContainer);
     });
     return taskContainer;
@@ -83,7 +87,7 @@ async function updateTask(event, taskContainer) {
     const starsDOM = taskContainer.querySelector('.stars');
     starsDOM.innerHTML = stars;
     starsDOM.style.display = "inline-block";
-    for (var text of taskContainer.querySelectorAll('input')) {
+    for (var text of taskContainer.querySelector('div').querySelectorAll('input')) {
         text.style.textDecoration = completed ? "line-through" : "none";
     }
 }
@@ -93,6 +97,7 @@ function editTask(event) {
     const taskContainer = icon.parentElement.parentElement.parentElement;
     const editable = taskContainer.querySelectorAll(".editable");
     for (var item of editable) {
+        item.style.textDecoration = "none";
         item.style.border = " ";
         item.removeAttribute("disabled");
     }
@@ -138,7 +143,8 @@ function prepareAddingSection() {
         const deadline = allItems[1].querySelector('input').value;
         const importance = allItems[2].querySelector('input').value;
         const completed = allItems[3].querySelector('input').checked;
-        addNotes(name, deadline, importance, completed);
+        const createdAt = new Date(Date.now()).toDateString();
+        addNotes(name, deadline, importance, completed, createdAt);
         interface.style.display = "none";
         clearInputHelper(allItems);
     });
@@ -149,8 +155,8 @@ function prepareAddingSection() {
     });
 }
 
-async function addNotes(name, deadline, importance, completed) {
-    const newNote = taskElement(name, deadline, importance, completed, "");     // set id later
+async function addNotes(name, deadline, importance, completed, createdAt) {
+    const newNote = taskElement(name, deadline, importance, completed, "", createdAt);     // set id later
     // add in DB
     const {data: {task: {_id}}} = await axios.post('/api/v1/tasks', {
         name, deadline, importance, completed
@@ -174,6 +180,7 @@ async function checkHaveItem() {
         headers: { Authorization: "Bearer " + token }
     });
     document.getElementsByClassName('no-item-prompt')[0].innerHTML = (nbHits == "0") ? "You have not yet add any tasks" : "";
+    document.getElementById('custom-icon').style.display = (nbHits == "0") ? "none" : "block";
 }
 
 function prepareNav() {
@@ -191,7 +198,6 @@ function prepareCustom() {
     });
 
     document.getElementById('customize-btn').addEventListener('click', async () => {
-        let queryString = "?";
         // sorting
         const sortCustomContainer = document.getElementById('sort-custom'); 
         const impCheck = sortCustomContainer.querySelectorAll('input')[0].checked;
@@ -200,7 +206,7 @@ function prepareCustom() {
         const recOrder = sortCustomContainer.querySelectorAll('select')[1].value;
         const imp = impCheck ? impOrder + "importance" : "";
         const rec = recCheck ? recOrder + "createdAt" : "";
-        queryString += ("sort=" + imp + "," + rec);
+        const sortStr = (imp || rec) ? "sort=" + [imp, rec].join(',') : "";
         // filtering
         const filterCustomContainer = document.getElementById('filter-custom'); 
         const impSel = filterCustomContainer.querySelectorAll('input')[0].checked;
@@ -210,7 +216,9 @@ function prepareCustom() {
         const compVal = filterCustomContainer.querySelectorAll('select')[2].value;
         const impt = impSel ? "importance" + impOptr + impVal : "";
         const comp = compSel ? "completed=" + compVal : "";
-        queryString += ("&filter=" + impt + "," + comp);
+        const filterStr = (impt || comp) ? "filter=" + [impt, comp].join(',') : "";
+        
+        const queryString = "?" + sortStr + "&" + filterStr;
         
         const {data: {tasks, nbHits}} = await axios.get('/api/v1/tasks' + queryString, {
             headers: { Authorization: "Bearer " + window.sessionStorage.getItem("token") }
@@ -219,8 +227,8 @@ function prepareCustom() {
         const taskContainer = document.getElementsByClassName("task-note-section")[0];
         taskContainer.innerHTML = "";
         for (var i = 0; i < tasks.length; i++) {
-            const { name, deadline, importance, completed, _id } = tasks[i];
-            taskContainer.append(taskElement(name, deadline, importance, completed, _id));
+            const { name, deadline, importance, completed, _id, createdAt } = tasks[i];
+            taskContainer.append(taskElement(name, deadline, importance, completed, _id, createdAt));
         }
     });
 }

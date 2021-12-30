@@ -43,7 +43,7 @@ function noteElement(title, content, createdAt, comments, _id) {
             <span><img src="./images/delete.svg" alt="delete-icon not found" class="delete-icon pointer-cursor"></span>
         </div>
         <div class="hidden-details" style="display: none;">
-            <div>CreatedAt:<input type="text" disabled value=" ${new Date(createdAt).toDateString()}" class="editable"></div>
+            <div>CreatedAt:<input type="text" disabled value=" ${new Date(createdAt).toDateString()}" style="border: none;"></div>
             <div>Comments:<input type="text" disabled value=" ${comments}" class="editable"></div>
         </div>
         <div class="finish-edit-btn" style="display: none;"><button>done</button></div>`;
@@ -51,7 +51,7 @@ function noteElement(title, content, createdAt, comments, _id) {
     noteContainer.querySelector(".edit-icon").addEventListener('click', editNote)
     noteContainer.querySelector(".delete-icon").addEventListener('click', deleteNote);
     noteContainer.querySelector(".expand-icon").addEventListener('click', toggleDetails);
-    noteContainer.querySelector(".finish-edit-btn").addEventListener('click', (event) => {
+    noteContainer.querySelector(".finish-edit-btn").querySelector('button').addEventListener('click', (event) => {
         updateNote(event, noteContainer);
     });
     return noteContainer;
@@ -78,7 +78,7 @@ async function updateNote(event, noteContainer) {
     const id = noteContainer.id;
     const title = editable[0].value;
     const content = editable[1].value;
-    const comments = editable[3].value;
+    const comments = editable[2].value;
     await axios.patch(`/api/v1/notes/${id}`, {
         title: title, content: content, comments:comments
     }, {
