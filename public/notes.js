@@ -9,7 +9,10 @@ async function ready() {
         await showNotes(window.sessionStorage.getItem("token"));
         prepareAddingSection();
         document.getElementById('TODO').addEventListener('click', () => window.location.assign("tasks.html"));
-        document.getElementById('logout-icon').addEventListener('click', () => window.location.assign("index.html"));
+        document.getElementById('logout-icon').addEventListener('click', () => {
+            window.sessionStorage.removeItem("token");
+            window.location.assign("index.html");
+        });
     } catch (error) {
         alert(error);
     }

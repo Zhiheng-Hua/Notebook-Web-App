@@ -27,11 +27,14 @@ async function register() {
             alertHolder.innerHTML = alertContent;
             authContainer.append(alertHolder);
         } else {
-            await axios.post('/api/v1/register', {
+            var {data: {token}} = await axios.post('/api/v1/register', {
                 name: name,
                 email: email,
                 password: password
             });
+            window.sessionStorage.setItem("token", token);
+            alert('account created successfully');
+
             window.location.assign("/notes.html");
         }
     } catch (error) {
