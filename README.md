@@ -44,7 +44,7 @@ Deleting Tasks
 
 
 ### Login
-*You may find the auth route implementations in [auth.js](controllers\auth.js) and User model in [User.js](models\User.js)*  
+*You may find the auth route implementations in [auth.js](controllers/auth.js) and User model in [User.js](models/User.js)*  
 ```
 Route: /api/v1/login
 ```
@@ -81,11 +81,10 @@ Route: /api/v1/login
 </table>
 
 ### Register
-*You may find the auth route implementations in [auth.js](controllers\auth.js) and User model in [User.js](models\User.js)*  
+*You may find the auth route implementations in [auth.js](controllers/auth.js) and User model in [User.js](models/User.js)*  
 ```
 Route: /api/v1/register
 ```
-
 <table>
 <thead>
     <tr><th>Method</th><th>Description</th><th>Sample Request</th><th>Sample Response</th></tr>
@@ -121,11 +120,10 @@ Route: /api/v1/register
 
 
 ### Note
-*You may find the note route implementations in [notes.js](controllers\notes.js) and Task model in [Note.js](models\Note.js)*  
+*You may find the note route implementations in [notes.js](controllers/notes.js) and Task model in [Note.js](models/Note.js)*  
 ```
 Route: /api/v1/notes
 ```
-
 <table>
 <thead>
     <tr><th>Method</th><th>Description</th><th>Sample Request</th><th>Sample Response</th></tr>
@@ -203,7 +201,6 @@ Route: /api/v1/notes
 ```
 Route: /api/v1/notes/:id
 ```
-
 <table>
 <thead>
     <tr><th>Method</th><th>Description</th><th>Sample Request</th><th>Sample Response</th></tr>
@@ -305,11 +302,10 @@ Route: /api/v1/notes/:id
 
 
 ### Task
-*You may find the task route implementations in [tasks.js](controllers\tasks.js) and Task model in [Task.js](models\Task.js)*
+*You may find the task route implementations in [tasks.js](controllers/tasks.js) and Task model in [Task.js](models/Task.js)*
 ```
 Route: /api/v1/tasks/?parameter=value
 ```
-
 <table>
 <thead>
     <tr><th>Method</th><th>Description</th><th>Sample Request</th><th>Sample Response</th></tr>
@@ -317,7 +313,7 @@ Route: /api/v1/tasks/?parameter=value
 <tbody>
 <tr>
 <td>GET</td>
-<td>Route for getting all user's tasks, authorization header with Bearer Token is required, response is all tasks matched stored in an object array in JSON format</td>
+<td>Route for getting all user's tasks, query string parameters chaining using &, authorization header with Bearer Token is required, response is all tasks matched stored in an object array in JSON format</td>
 <td>
 
 ```json
@@ -353,7 +349,7 @@ Route: /api/v1/tasks/?parameter=value
 
 <table>
 <thead>
-    <tr><th>Description</th><th>Parameters(chaing using &)</th><th>Field Name</th><th>Sample Query</th>
+    <tr><th>Description</th><th>Parameters</th><th>Field Name</th><th>Sample Query</th>
 </thead>
 <tbody>
 <tr>
@@ -370,7 +366,7 @@ Route: /api/v1/tasks/?parameter=value
 
 <table>
 <thead>
-    <tr><th>Description</th><th>Parameters(chaing using &)</th><th>Field Name</th><th>Operator</th><th>Values</th><th>Sample Query</th>
+    <tr><th>Description</th><th>Parameters</th><th>Field Name</th><th>Operator</th><th>Values</th><th>Sample Query</th>
 </thead>
 <tbody>
     <tr>
@@ -395,4 +391,155 @@ Route: /api/v1/tasks/?parameter=value
 </tbody>
 </table>
 
+```
+Route: /api/v1/tasks/
+```
+<table>
+<thead>
+    <tr><th>Method</th><th>Description</th><th>Sample Request</th><th>Sample Response</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td>Route for creating new task, authorization header with Bearer Token is required, name is required in request body, deadline, importance, and completed are also options to be passed in, response is the created task in JSON format</td>
+<td>
 
+```json
+{
+    "name": "Task name",
+    "deadline": "Task deadline",
+    "importance": 0,
+    "completed": true,
+}, {
+    "headers": { "Authorization": "Bearer Token" }
+}
+```
+</td>
+<td>
+
+```json
+{ 
+    "tasks": {
+        "_id": "Document Id",
+        "name": "Task name",
+        "deadline": "Task deadline",
+        "importance": 0,
+        "completed": true,
+        "createdBy": "Task owner Id",
+        "createdAt": "First create Timestamp",
+        "updatedAt": "Last update timestamp",
+        "__v": 0
+    }
+}
+```
+</td>
+</tr>
+</tbody>
+</table>
+
+
+```
+Route: /api/v1/tasks/:id
+```
+<table>
+<thead>
+    <tr><th>Method</th><th>Description</th><th>Sample Request</th><th>Sample Response</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td>Route for getting one single task of the user, authorization header with Bearer Token is required, response is the task matched in JSON format</td>
+<td>
+
+```json
+{
+    "headers": { "Authorization": "Bearer Token" }
+}
+```
+</td>
+<td>
+
+```json
+{ 
+    "tasks": {
+        "_id": "Document Id",
+        "name": "Task name",
+        "deadline": "Task deadline",
+        "importance": 3,
+        "completed": false,
+        "createdBy": "Task owner Id",
+        "createdAt": "First create Timestamp",
+        "updatedAt": "Last update timestamp",
+        "__v": 0
+    }
+}
+```
+</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td>Route for updating task of the user, authorization header with Bearer Token is required, request body similar to the creating api (POST route), name is required in request body, deadline, importance, and completed are also options to be passed in, createdAt will be updated if passed in but not suggested, response is the task matched in JSON format</td>
+<td>
+
+```json
+{
+    "name": "Task name",
+    "deadline": "Task deadline",
+    "importance": 0,
+    "completed": true,
+}, {
+    "headers": { "Authorization": "Bearer Token" }
+}
+```
+</td>
+<td>
+
+```json
+{ 
+    "tasks": {
+        "_id": "Document Id",
+        "name": "Task name",
+        "deadline": "Task deadline",
+        "importance": 0,
+        "completed": true,
+        "createdBy": "Task owner Id",
+        "createdAt": "First create Timestamp",
+        "updatedAt": "Last update timestamp",
+        "__v": 0
+    }
+}
+```
+</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td>Route for deleting and existing task of the user, authorization header with Bearer Token is required, response is the task deleted in JSON format</td>
+<td>
+
+```json
+{
+    "headers": { "Authorization": "Bearer Token" }
+}
+```
+</td>
+<td>
+
+```json
+{ 
+    "tasks": {
+        "_id": "Document Id",
+        "name": "Task name",
+        "deadline": "Task deadline",
+        "importance": 3,
+        "completed": false,
+        "createdBy": "Task owner Id",
+        "createdAt": "First create Timestamp",
+        "updatedAt": "Last update timestamp",
+        "__v": 0
+    }
+}
+```
+</td>
+</tr>
+</tbody>
+</table>

@@ -144,7 +144,7 @@ function prepareAddingSection() {
         const importance = allItems[2].querySelector('input').value;
         const completed = allItems[3].querySelector('input').checked;
         const createdAt = new Date(Date.now()).toDateString();
-        addNotes(name, deadline, importance, completed, createdAt);
+        addTasks(name, deadline, importance, completed, createdAt);
         interface.style.display = "none";
         clearInputHelper(allItems);
     });
@@ -155,7 +155,7 @@ function prepareAddingSection() {
     });
 }
 
-async function addNotes(name, deadline, importance, completed, createdAt) {
+async function addTasks(name, deadline, importance, completed, createdAt) {
     const newNote = taskElement(name, deadline, importance, completed, "", createdAt);     // set id later
     // add in DB
     const {data: {task: {_id}}} = await axios.post('/api/v1/tasks', {
