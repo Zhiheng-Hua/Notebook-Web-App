@@ -69,10 +69,10 @@ Route: /api/v1/login
 
 ```json
 {
-"user": { 
-    "name": "username when register"
-}, 
-"token": "authentication token"
+    "user": { 
+        "name": "username when register"
+    }, 
+    "token": "authentication token"
 }
 ```
 </td>
@@ -108,10 +108,10 @@ Route: /api/v1/register
 
 ```json
 {
-"user": { 
-    "name": "user name when register"
-}, 
-"token": "authentication token"
+    "user": { 
+        "name": "user name when register"
+    }, 
+    "token": "authentication token"
 }
 ```
 </td>
