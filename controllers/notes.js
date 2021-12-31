@@ -23,8 +23,8 @@ const getSingleNote = async (req, res) => {
 
 const createNote = async (req, res) => {
     req.body.createdBy = req.user.userId;
-    const note = await Note.create(req.body);   // use request body to create note
-    res.status(StatusCodes.CREATED).json({ note });             // HTTP 201 Created success status
+    const note = await Note.create(req.body);       // use request body to create note
+    res.status(StatusCodes.CREATED).json({ note });
 }
 
 const updateNote = async (req, res) => {

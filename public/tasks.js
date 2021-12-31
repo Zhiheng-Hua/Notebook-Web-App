@@ -187,6 +187,7 @@ function prepareNav() {
     document.getElementById('NOTE').addEventListener('click', () => window.location.assign("notes.html"));
     document.getElementById('logout-icon').addEventListener('click', () => {
         window.sessionStorage.removeItem("token");
+        alert('Logout successfully');
         window.location.assign("index.html");
     });
 }
@@ -230,6 +231,7 @@ function prepareCustom() {
             const { name, deadline, importance, completed, _id, createdAt } = tasks[i];
             taskContainer.append(taskElement(name, deadline, importance, completed, _id, createdAt));
         }
+        toggleTarget(document.getElementById('custom-edit-wrapper'));
     });
 }
 
