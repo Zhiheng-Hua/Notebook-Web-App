@@ -1,14 +1,17 @@
 # Notebook-Web-App
 
 ## Overview
-- Description: a web application for note taking and task managing
+- Description: This is a full-stack project of a web application for note taking and task managing
 - Database: MongoDB
 - Packages: see [package.json](package.json)
 - *the project is not deployed, to test it out, you need to connect to your own MongoDB database and setup your own secret .env file*
+- Quick Navigation:
+  - [Frontend features](#Frontend)
+  - [Backend APIs](#Backend)
 
 
 
-## Frontend features
+## Frontend features <a id="Frontend"></a>
 ### Authorization
 Register
 <div><img src="demo-files\register-demo.gif" width=70%></div>
@@ -40,14 +43,18 @@ Deleting Tasks
 
 
 
-## Backend APIs
+## Backend APIs <a id="Backend"></a>
 
 
 ### Login
 *You may find the auth route implementations in [auth.js](controllers/auth.js) and User model in [User.js](models/User.js)*  
+<div style="background-color: 999999;">
+
 ```
 Route: /api/v1/login
 ```
+</div>
+
 <table>
 <thead>
     <tr><th>Method</th><th>Description</th><th>Sample Request</th><th>Sample Response</th></tr>
@@ -82,9 +89,13 @@ Route: /api/v1/login
 
 ### Register
 *You may find the auth route implementations in [auth.js](controllers/auth.js) and User model in [User.js](models/User.js)*  
+<div style="background-color: 999999;">
+
 ```
 Route: /api/v1/register
 ```
+</div>
+
 <table>
 <thead>
     <tr><th>Method</th><th>Description</th><th>Sample Request</th><th>Sample Response</th></tr>
@@ -121,9 +132,13 @@ Route: /api/v1/register
 
 ### Note
 *You may find the note route implementations in [notes.js](controllers/notes.js) and Task model in [Note.js](models/Note.js)*  
+<div style="background-color: 999999;">
+
 ```
 Route: /api/v1/notes
 ```
+</div>
+
 <table>
 <thead>
     <tr><th>Method</th><th>Description</th><th>Sample Request</th><th>Sample Response</th></tr>
@@ -198,9 +213,12 @@ Route: /api/v1/notes
 </tbody>
 </table>
 
+<div style="background-color: 999999;">
+
 ```
 Route: /api/v1/notes/:id
 ```
+</div>
 <table>
 <thead>
     <tr><th>Method</th><th>Description</th><th>Sample Request</th><th>Sample Response</th></tr>
@@ -303,9 +321,12 @@ Route: /api/v1/notes/:id
 
 ### Task
 *You may find the task route implementations in [tasks.js](controllers/tasks.js) and Task model in [Task.js](models/Task.js)*
+<div style="background-color: 999999;">
+
 ```
 Route: /api/v1/tasks/?parameter=value
 ```
+</div>
 <table>
 <thead>
     <tr><th>Method</th><th>Description</th><th>Sample Request</th><th>Sample Response</th></tr>
@@ -391,9 +412,12 @@ Route: /api/v1/tasks/?parameter=value
 </tbody>
 </table>
 
+<div style="background-color: 999999;">
+
 ```
 Route: /api/v1/tasks/
 ```
+</div>
 <table>
 <thead>
     <tr><th>Method</th><th>Description</th><th>Sample Request</th><th>Sample Response</th></tr>
@@ -438,9 +462,12 @@ Route: /api/v1/tasks/
 </table>
 
 
+<div style="background-color: 999999;">
+
 ```
 Route: /api/v1/tasks/:id
 ```
+</div>
 <table>
 <thead>
     <tr><th>Method</th><th>Description</th><th>Sample Request</th><th>Sample Response</th></tr>
