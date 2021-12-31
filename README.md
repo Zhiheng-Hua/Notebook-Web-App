@@ -133,7 +133,7 @@ Route: /api/v1/notes
 <tbody>
 <tr>
 <td>GET</td>
-<td>Route for getting all notes one specific user stored in database, authorization header with Bearer Token is required, response in JSON format</td>
+<td>Route for getting all user's notes, authorization header with Bearer Token is required, response is all notes matched stored in an object array in JSON format</td>
 <td>
 
 ```json
@@ -165,7 +165,7 @@ Route: /api/v1/notes
 </tr>
 <tr>
 <td>POST</td>
-<td>Route for creating new notes, authorization header with Bearer Token is required, title is required in request body to meet model creation need response in JSON format</td>
+<td>Route for creating new notes, authorization header with Bearer Token is required, title must be provided to fit the backend model, content, createdAt and comments are also optoins to pass in for update, response is the created note in JSON format</td>
 <td>
 
 ```json
@@ -183,33 +183,216 @@ Route: /api/v1/notes
 
 ```json
 { 
-    "notes": [
-        {
-            "_id": "Document Id",
-            "title": "Note title",
-            "content": "Note content",
-            "comments": " Note comments",
-            "createdBy": "Note owner Id",
-            "createdAt": "First create Timestamp",
-            "updatedAt": "Last update timestamp",
-            "__v": 0
-        }
-    ]
+    "notes": {
+        "_id": "Document Id",
+        "title": "Note title",
+        "content": "Note content",
+        "comments": " Note comments",
+        "createdBy": "Note owner Id",
+        "createdAt": "First create Timestamp",
+        "updatedAt": "Last update timestamp",
+        "__v": 0
+    }
 }
 ```
 </td>
 </tr>
-
 </tbody>
 </table>
 
 ```
 Route: /api/v1/notes/:id
 ```
-// TODO
+
+<table>
+<thead>
+    <tr><th>Method</th><th>Description</th><th>Sample Request</th><th>Sample Response</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td>Route for getting one single note of the user, authorization header with Bearer Token is required, response is the note matched in JSON format</td>
+<td>
+
+```json
+{
+    "headers": { "Authorization": "Bearer Token" }
+}
+```
+</td>
+<td>
+
+```json
+{ 
+    "notes": {
+        "_id": "Document Id",
+        "title": "Note title",
+        "content": "Note content",
+        "comments": " Note comments",
+        "createdBy": "Note owner Id",
+        "createdAt": "First create Timestamp",
+        "updatedAt": "Last update timestamp",
+        "__v": 0
+    }
+}
+```
+</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td>Route for updating one exsisting note of the user, authorization header with Bearer Token is required, request body same as note creating api (POST route), title must be provided to fit the backend model, content and comments are also options to pass in for update, createdAt will be updated if passed in but not suggested, response is the updated note in JSON format</td>
+<td>
+
+```json
+{
+    "title": "Note title",
+    "content": "Note content",
+    "comments": " Note comments",
+}, {
+    "headers": { "Authorization": "Bearer Token" }
+}
+```
+</td>
+<td>
+
+```json
+{ 
+    "notes": {
+        "_id": "Document Id",
+        "title": "Note title",
+        "content": "Note content",
+        "comments": " Note comments",
+        "createdBy": "Note owner Id",
+        "createdAt": "First create Timestamp",
+        "updatedAt": "Last update timestamp",
+        "__v": 0
+    }
+}
+```
+</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td>Route for deleting one exsisting note of the user, authorization header with Bearer Token is required, response is the deleted note in JSON format</td>
+<td>
+
+```json
+{
+    "headers": { "Authorization": "Bearer Token" }
+}
+```
+</td>
+<td>
+
+```json
+{ 
+    "notes": {
+        "_id": "Document Id",
+        "title": "Note title",
+        "content": "Note content",
+        "comments": " Note comments",
+        "createdBy": "Note owner Id",
+        "createdAt": "First create Timestamp",
+        "updatedAt": "Last update timestamp",
+        "__v": 0
+    }
+}
+```
+</td>
+</tr>
+</tbody>
+</table>
 
 
 ### Task
 *You may find the task route implementations in [tasks.js](controllers\tasks.js) and Task model in [Task.js](models\Task.js)*
+```
+Route: /api/v1/tasks/?parameter=value
+```
 
-// TODO
+<table>
+<thead>
+    <tr><th>Method</th><th>Description</th><th>Sample Request</th><th>Sample Response</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td>Route for getting all user's tasks, authorization header with Bearer Token is required, response is all tasks matched stored in an object array in JSON format</td>
+<td>
+
+```json
+{
+    "headers": { "Authorization": "Bearer Token" }
+}
+```
+</td>
+<td>
+
+```json
+{ 
+    "tasks": [
+        {
+            "_id": "Document Id",
+            "name": "Task name",
+            "deadline": "Task deadline",
+            "importance": 5,
+            "completed": false,
+            "createdBy": "Task owner Id",
+            "createdAt": "First create Timestamp",
+            "updatedAt": "Last update timestamp",
+            "__v": 0
+        }
+    ], 
+    "nbHits": "number of tasks matched"
+}
+```
+</td>
+</tr>
+</tbody>
+</table>
+
+<table>
+<thead>
+    <tr><th>Description</th><th>Parameters(chaing using &)</th><th>Field Name</th><th>Sample Query</th>
+</thead>
+<tbody>
+<tr>
+    <td rowspan="2">sorting tasks according to value passed in, multiple values should be seperated by commas</td>
+    <td rowspan="2">sort=</td>
+    <td>importance</td>
+    <td rowspan="2">sort=importance,createdAt</td>
+</tr>
+<tr>
+    <td>createdAt</td>
+</tr>
+</tbody>
+</table>
+
+<table>
+<thead>
+    <tr><th>Description</th><th>Parameters(chaing using &)</th><th>Field Name</th><th>Operator</th><th>Values</th><th>Sample Query</th>
+</thead>
+<tbody>
+    <tr>
+        <td rowspan="5">filtering according to number of stars a task have (importance), multiple values should be seperated by commas</td>
+        <td rowspan="7">filter=</td>
+        <td rowspan="5">importance</td>
+        <td>&gt;</td>
+        <td rowspan="5">0-5: integer, representing number of stars a task have</td>
+        <td rowspan="7">filter=importance>3,completed=0</td>
+    </tr>
+    <tr><td>&ge;</td></tr>
+    <tr><td>=</td></tr>
+    <tr><td>&lt;</td></tr>
+    <tr><td>&le;</td></tr>
+    <tr>
+        <td rowspan="2">filtering according to wether a task is completed</td>
+        <td rowspan="2">completed</td>
+        <td rowspan="2">=</td>
+        <td>0: task is not completed</td>
+    </tr>
+    <tr><td>1: task is completed</td></tr>
+</tbody>
+</table>
+
+
